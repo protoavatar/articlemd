@@ -24,12 +24,17 @@ export default async function handler(req, res) {
   const email = req.body.email
 
 
-
   const response = await got(url);
   const { JSDOM } = require('jsdom');
   var document = new JSDOM(response.body, {
     url: url
-  }); p
+  });
+
+  //get og:image for cover-image
+  const meta = document.window.document.querySelector('meta[property="og:image"]');
+  const cover = meta && meta.getAttribute('content');
+
+  console.log(cover);
 
   const cleanDocumentBody = DOMPurify.sanitize(document.body);
   document.body = cleanDocumentBody;
