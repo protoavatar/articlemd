@@ -24,17 +24,14 @@ export default async function handler(req, res) {
   const email = req.body.email
 
 
+
   const response = await got(url);
   const { JSDOM } = require('jsdom');
-  var document = new JSDOM(response.body, {
+  let document = new JSDOM(response.body, {
     url: url
   });
 
-  //get og:image for cover-image
-  const meta = document.window.document.querySelector('meta[property="og:image"]');
-  const cover = meta && meta.getAttribute('content');
 
-  console.log(cover);
 
   const cleanDocumentBody = DOMPurify.sanitize(document.body);
   document.body = cleanDocumentBody;
@@ -43,9 +40,22 @@ export default async function handler(req, res) {
   const fecha = dayjs().format('YYYY-MM-DD')
 
 
+  // mover dentro del envio a kindle luego
+  let sanitize = require("sanitize-filename");
+  //get og:image for cover-image
+  const meta = document.window.document.querySelector('meta[property="og:image"]');
+  let cover = meta && meta.getAttribute('content');
+
+  if (!cover) {
+    const lexicaJson = await fetch("https://lexica.art/api/v1/search?q=" + sanitize(readableDocument?.title || "Article " + fecha))
+    const lexicaData = await lexicaJson.json()
+    cover = lexicaData.images[Math.floor(Math.random() * 50)].src
+  }
+
+  console.log(cover)
 
   if (readableDocument?.content) {
-    var sanitize = require("sanitize-filename");
+
     const filename = sanitize(readableDocument?.title || "Article " + fecha)
     // const file = path.join(process.cwd(), 'book.epub');
     // const stringified = writeFileSync(file, readableDocument.content, 'utf8');
@@ -102,6 +112,7 @@ export default async function handler(req, res) {
 
     console.log(answer)
     res.status(200).json(answer)
+    // res.status(200).json(lexicaData)
   } else {
     const answer = { title: "Article " + fecha + "-" + Math.floor(Math.random() * 10).toString(), author: "", excerpt: "", date: fecha, content: url, filename: "Article " + fecha + "-" + Math.floor(Math.random() * 10).toString() }
     console.log(answer)
@@ -109,3 +120,4 @@ export default async function handler(req, res) {
   }
 
 }
+
