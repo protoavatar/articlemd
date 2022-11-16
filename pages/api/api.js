@@ -60,25 +60,12 @@ export default async function handler(req, res) {
   if (readableDocument?.content) {
 
     const filename = sanitize(readableDocument?.title || "Article " + fecha)
-    // const file = path.join(process.cwd(), 'book.epub');
-    // const stringified = writeFileSync(file, readableDocument.content, 'utf8');
+
     if (req.body.kindle && req.body.email) {
 
       const file = path.join("/tmp", 'book.epub');
 
-      // const http = require('http');
-      // const coverFile = createWriteStream("/tmp/cover.png");
-      // const request = http.get("http://localhost:3000/api/og?title=" + encodeURI(readableDocument?.title || "Sin Titulo") + "&author=" + encodeURI(readableDocument?.byline || "No Author") + "&url=" + cover, function (response) {
-      //   response.pipe(coverFile);
-
-      // });
-
-      // await fetch("http://localhost:3000/api/og?title=" + encodeURI(readableDocument?.title || "Sin Titulo") + "&author=" + encodeURI(readableDocument?.byline || "No Author") + "&url=" + cover)
-      //   .then(res =>
-      //     res.body.pipe(createWriteStream("/tmp/cover.png"))
-      //   )
-
-      await downloadImage("http://localhost:3000/api/og?title=" + encodeURI(readableDocument?.title || "Sin Titulo") + "&author=" + encodeURI(readableDocument?.byline || "No Author") + "&url=" + cover, "/tmp/cover.png")
+      await downloadImage(process.env.VERCEL_URL + "/api/og?title=" + encodeURI(readableDocument?.title || "Sin Titulo") + "&author=" + encodeURI(readableDocument?.byline || "No Author") + "&url=" + cover, "/tmp/cover.png")
 
       const option = {
         title: readableDocument?.title || "Sin Titulo", // *Required, title of the book.
@@ -86,7 +73,6 @@ export default async function handler(req, res) {
         ignoreFailedDownloads: true,
         date: fecha,
         // publisher: "Macmillan & Co.", // optional
-        //cover: "http://localhost:3000/api/og?title=" + encodeURI(readableDocument?.title || "Sin Titulo") + "&author=" + encodeURI(readableDocument?.byline || "No Author") + "&url=" + cover
         cover: "file:///tmp/cover.png",
       };
 
