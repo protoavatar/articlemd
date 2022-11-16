@@ -1,4 +1,4 @@
-# articledmapi
+# articlemd
 
 API to convert an HTML web page into markdown. Inspired in https://github.com/DominikPieper/obsidian-ReadItLater.
 Working:
