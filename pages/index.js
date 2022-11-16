@@ -14,7 +14,7 @@ export default function Home() {
 
   const onSubmit = data => {
     console.log(data)
-    const res = fetcher("/api/api", { url: data.url, kindle: data.kindle }).then(
+    const res = fetcher("/api/api", { url: data.url, kindle: data.kindle, email: process.env.NEXT_PUBLIC_EMAIL }).then(
       (values) => {
         setArticulo({ title: values.title, author: values.author, excerpt: values.excerpt, date: values.date, filename: values.filename, content: values.content })
 

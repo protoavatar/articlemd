@@ -49,7 +49,7 @@ export default async function handler(req, res) {
   if (!cover) {
     const lexicaJson = await fetch("https://lexica.art/api/v1/search?q=" + sanitize(readableDocument?.title || "Article " + fecha))
     const lexicaData = await lexicaJson.json()
-    cover = lexicaData.images[Math.floor(Math.random() * 50)].src
+    cover = lexicaData.images[Math.floor(Math.random() * 50)].srcSmall
   }
 
   console.log(cover)
@@ -70,7 +70,7 @@ export default async function handler(req, res) {
         ignoreFailedDownloads: true,
         date: fecha,
         // publisher: "Macmillan & Co.", // optional
-        // cover: "http://demo.com/url-to-cover-image.jpg", // Url or File path, both ok.
+        cover: "http://localhost:3000/api/og?title=" + encodeURI(readableDocument?.title || "Sin Titulo") + "&author=" + encodeURI(readableDocument?.byline || "No Author") + "&url=" + cover
       };
 
       const transporter = nodemailer.createTransport({
