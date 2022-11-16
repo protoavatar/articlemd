@@ -5,10 +5,11 @@ import DOMPurify from 'isomorphic-dompurify';
 import { isProbablyReaderable, Readability } from '@mozilla/readability';
 import { parseHtmlContent } from '../../utils/parsehtml';
 import dayjs from 'dayjs';
-import { writeFileSync } from 'fs';
+import { writeFileSync, writeFile } from 'fs';
 import path from 'path';
 import epub from "epub-gen-memory";
 import nodemailer from "nodemailer"
+
 
 export default async function handler(req, res) {
   if (
@@ -54,6 +55,8 @@ export default async function handler(req, res) {
 
   console.log(cover)
 
+
+
   if (readableDocument?.content) {
 
     const filename = sanitize(readableDocument?.title || "Article " + fecha)
@@ -63,6 +66,19 @@ export default async function handler(req, res) {
 
       const file = path.join("/tmp", 'book.epub');
 
+      // const http = require('http');
+      // const coverFile = createWriteStream("/tmp/cover.png");
+      // const request = http.get("http://localhost:3000/api/og?title=" + encodeURI(readableDocument?.title || "Sin Titulo") + "&author=" + encodeURI(readableDocument?.byline || "No Author") + "&url=" + cover, function (response) {
+      //   response.pipe(coverFile);
+
+      // });
+
+      // await fetch("http://localhost:3000/api/og?title=" + encodeURI(readableDocument?.title || "Sin Titulo") + "&author=" + encodeURI(readableDocument?.byline || "No Author") + "&url=" + cover)
+      //   .then(res =>
+      //     res.body.pipe(createWriteStream("/tmp/cover.png"))
+      //   )
+
+      await downloadImage("http://localhost:3000/api/og?title=" + encodeURI(readableDocument?.title || "Sin Titulo") + "&author=" + encodeURI(readableDocument?.byline || "No Author") + "&url=" + cover, "/tmp/cover.png")
 
       const option = {
         title: readableDocument?.title || "Sin Titulo", // *Required, title of the book.
@@ -70,7 +86,8 @@ export default async function handler(req, res) {
         ignoreFailedDownloads: true,
         date: fecha,
         // publisher: "Macmillan & Co.", // optional
-        cover: "http://localhost:3000/api/og?title=" + encodeURI(readableDocument?.title || "Sin Titulo") + "&author=" + encodeURI(readableDocument?.byline || "No Author") + "&url=" + cover
+        //cover: "http://localhost:3000/api/og?title=" + encodeURI(readableDocument?.title || "Sin Titulo") + "&author=" + encodeURI(readableDocument?.byline || "No Author") + "&url=" + cover
+        cover: "file:///tmp/cover.png",
       };
 
       const transporter = nodemailer.createTransport({
@@ -121,3 +138,10 @@ export default async function handler(req, res) {
 
 }
 
+const downloadImage = async (url, path) => {
+  const response = await fetch(url);
+  const blob = await response.blob();
+  const arrayBuffer = await blob.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer);
+  await writeFileSync(path, buffer);
+}

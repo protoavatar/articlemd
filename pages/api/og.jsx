@@ -30,7 +30,7 @@ export default async function handler(req) {
       <div
         style={{
           display: 'flex',
-          fontSize: 60,
+
           fontFamily: '"Typewriter"',
           color: 'black',
           background: '#f6f6f6',
@@ -38,9 +38,9 @@ export default async function handler(req) {
           height: '100%',
           paddingTop: 50,
           flexDirection: 'column',
-          justifyContent: 'flex-end',
+          justifyContent: 'flex-start',
           alignItems: 'center',
-          lineHeight: '300%'
+
 
         }}
       >
@@ -57,9 +57,9 @@ export default async function handler(req) {
           style={{
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'flex-start',
+            justifyContent: 'flex-end',
             position: 'absolute',
-            top: '1px',
+            bottom: '100px',
             width: '100%',
             textAlign: 'center',
             paddingLeft: '15px',
@@ -68,8 +68,8 @@ export default async function handler(req) {
             fontFamily: '"Typewriter"',
           }}
         >
-          {title && <p>{title}</p>}
-          {author && (author !== "No Author" && <p style={{ fontSize: 40, textAlign: 'right', alignSelf: 'flex-end' }}>{author}</p>)}
+          {title && <p style={{ lineHeight: '250%', fontSize: 60, marginTop: '10px', paddingTop: 0 }}>{title}</p>}
+          {author && (author !== "No Author" && <p style={{ lineHeight: '250%', fontSize: 40, textAlign: 'center', alignSelf: 'center', marginBottom: '5px', marginTop: '5px' }}>{author}</p>)}
         </div>
 
       </div >
