@@ -12,4 +12,5 @@ Working:
 - Use [OG Image Generation – Vercel Docs](https://vercel.com/docs/concepts/functions/edge-functions/og-image-generation) to generate the cover for kindle epub. It retrieves 'og:image' image from the `meta` html tags, and in case it does not exist, it uses [Lexica Search API](https://lexica.art/docs) to retrieve an AI generated image. I had to save the image to the `/tmp` folder in order for it to work.
 - Use [Nodemailer :: Nodemailer](https://nodemailer.com/about/) to send to Kindle
 - Use turndown to convert the HTML into Markdown(in parseHtmlContent.js util) [GitHub - mixmark-io/turndown: 🛏 An HTML to Markdown converter written in JavaScript](https://github.com/mixmark-io/turndown)
+- Use [Calculate the estimated reading time of an article using JavaScript - DEV Community 👩‍💻👨‍💻](https://dev.to/michaelburrows/calculate-the-estimated-reading-time-of-an-article-using-javascript-2k9l) to calculate reading time for article
 - Respond with MD content and article details

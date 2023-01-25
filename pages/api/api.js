@@ -59,13 +59,20 @@ export default async function handler(req, res) {
 
   if (readableDocument?.content) {
 
+    // Reading time
+    const wpm = 225;
+    const words = readableDocument.textContent.trim().split(/\s+/).length;
+    const time = Math.ceil(words / wpm);
+    console.log("Palabras: " + words)
+    console.log("Tiempo de lectura: " + time)
+
     const filename = sanitize(readableDocument?.title || "Article " + fecha)
 
     if (req.body.kindle && req.body.email) {
 
       const file = path.join("/tmp", 'book.epub');
 
-      await downloadImage(process.env.HTTP + process.env.VERCEL_URL + "/api/og?title=" + encodeURI(readableDocument?.title || "Sin Titulo") + "&author=" + encodeURI(readableDocument?.byline || "No Author") + "&url=" + cover, "/tmp/cover.png")
+      await downloadImage(process.env.HTTP + process.env.VERCEL_URL + "/api/og?title=" + encodeURI(readableDocument?.title || "Sin Titulo") + "&author=" + encodeURI(readableDocument?.byline || "No Author") + "&url=" + cover, "/tmp/cover.png" + "&time=" + time);
 
       const option = {
         title: readableDocument?.title || "Sin Titulo", // *Required, title of the book.
@@ -113,7 +120,7 @@ export default async function handler(req, res) {
     const markdown = await parseHtmlContent(readableDocument.content)
     const answer = { title: readableDocument.title, author: readableDocument.byline, excerpt: readableDocument.excerpt, date: fecha, content: markdown, filename: filename }
 
-    console.log(answer)
+    // console.log(answer)
     res.status(200).json(answer)
     // res.status(200).json(lexicaData)
   } else {
