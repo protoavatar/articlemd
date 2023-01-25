@@ -19,6 +19,8 @@ export default async function handler(req) {
   const author = searchParams.get('author');
   const time = searchParams.get('time');
 
+  console.log(time)
+
   if (!src) {
     return new ImageResponse(<>Visit with &quot;?username=vercel&quot;</>, {
       width: 1200,
@@ -71,7 +73,7 @@ export default async function handler(req) {
         >
           {title && <p style={{ lineHeight: '250%', fontSize: 60, marginTop: '10px', paddingTop: 0 }}>{title}</p>}
           {author && (author !== "No Author" && <p style={{ lineHeight: '250%', fontSize: 40, textAlign: 'center', alignSelf: 'center', marginBottom: '5px', marginTop: '5px' }}>{author}</p>)}
-          {time && (<p style={{ lineHeight: '250%', fontSize: 20, textAlign: 'center', marginBottom: '5px', marginTop: '5px' }}>{time}</p>)}
+          {time && (<p style={{ lineHeight: '250%', fontSize: 20, textAlign: 'center', marginBottom: '5px', marginTop: '5px' }}>Tiempo de Lectura: {time}</p>)}
         </div>
 
       </div >
