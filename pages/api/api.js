@@ -59,6 +59,12 @@ export default async function handler(req, res) {
 
   if (readableDocument?.content) {
 
+    // Reading time
+    const wpm = 225;
+    const words = readableDocument.textContent.trim().split(/\s+/).length;
+    const time = Math.ceil(words / wpm);
+    console.log(time)
+
     const filename = sanitize(readableDocument?.title || "Article " + fecha)
 
     if (req.body.kindle && req.body.email) {
