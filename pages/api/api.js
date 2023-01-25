@@ -63,8 +63,8 @@ export default async function handler(req, res) {
     const wpm = 225;
     const words = readableDocument.textContent.trim().split(/\s+/).length;
     const time = Math.ceil(words / wpm);
-    console.log(words)
-    console.log(time)
+    console.log("Palabras: " + words)
+    console.log("Tiempo de lectura: " + time)
 
     const filename = sanitize(readableDocument?.title || "Article " + fecha)
 
@@ -72,7 +72,7 @@ export default async function handler(req, res) {
 
       const file = path.join("/tmp", 'book.epub');
 
-      await downloadImage(process.env.HTTP + process.env.VERCEL_URL + "/api/og?title=" + encodeURI(readableDocument?.title || "Sin Titulo") + "&author=" + encodeURI(readableDocument?.byline || "No Author") + "&url=" + cover, "/tmp/cover.png")
+      await downloadImage(process.env.HTTP + process.env.VERCEL_URL + "/api/og?title=" + encodeURI(readableDocument?.title || "Sin Titulo") + "&author=" + encodeURI(readableDocument?.byline || "No Author") + "&url=" + cover, "/tmp/cover.png" + "&time=" + time);
 
       const option = {
         title: readableDocument?.title || "Sin Titulo", // *Required, title of the book.
