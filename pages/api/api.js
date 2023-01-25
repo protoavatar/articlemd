@@ -60,7 +60,16 @@ export default async function handler(req, res) {
   if (readableDocument?.content) {
 
     // Reading time
-    const wpm = 265;
+    // According to a speed-reading test sponsored by Staples as part of an e-book promotion, here are the typical speeds at which humans read, and in theory comprehend, at various stages of educational development :
+    // Third-grade students = 150 words per minute (wpm)
+    // Eighth grade students = 250 wpm
+    // Average college student = 450 wpm
+    // Average "high-level exec" = 575 wpm
+    // Average college professor = 675 wpm
+    // Speed readers = 1,500 wpm
+    // World speed reading champion = 4,700 wpm
+    // Average adult = 300 wpm
+    const wpm = 500;
     const words = readableDocument.textContent.trim().split(/\s+/).length;
     const time = Math.ceil(words / wpm);
     console.log("Palabras: " + words)
