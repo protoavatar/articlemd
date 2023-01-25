@@ -73,7 +73,7 @@ export default async function handler(req) {
         >
           {title && <p style={{ lineHeight: '250%', fontSize: 60, marginTop: '10px', paddingTop: 0 }}>{title}</p>}
           {author && (author !== "No Author" && <p style={{ lineHeight: '250%', fontSize: 40, textAlign: 'center', alignSelf: 'center', marginBottom: '5px', marginTop: '5px' }}>{author}</p>)}
-          {time && (<p style={{ lineHeight: '250%', fontSize: 20, textAlign: 'center', marginBottom: '5px', marginTop: '5px' }}>Tiempo de Lectura: {time}</p>)}
+          {time && (<p style={{ lineHeight: '250%', fontSize: 40, textAlign: 'center', alignSelf: 'center', marginBottom: '5px', marginTop: '5px' }}>{time} minutos</p>)}
         </div>
 
       </div >
